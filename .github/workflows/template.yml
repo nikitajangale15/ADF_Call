@@ -4,8 +4,12 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
-  
+  workflow_dispatch: 
+    inputs:
+          parametername:
+            required: true
+            type: string
+        
 jobs:
   build:
     name: Build ADF Artifacts
@@ -44,7 +48,7 @@ jobs:
       - name: Run PowerShell script to update parameters
         shell: pwsh
         run: |
-          ./update.ps1 -parameterFile "${{ github.workspace }}/ArmTemplate/ARMTemplateParametersForFactory.json"
+          ./update.ps1 -parameterFile ${{ inputs.parametername }}
           
       - name: List files in current directory
         run: ls
